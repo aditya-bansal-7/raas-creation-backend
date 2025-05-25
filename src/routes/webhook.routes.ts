@@ -41,6 +41,12 @@ WebhookRouter.post("/", async (req: Request, res: Response, next: NextFunction) 
       edd,
     } = payload;
 
+    if( order_number.startsWith("SI")){
+      console.log("Skipping Nimbus webhook processing for SI order");
+      res.status(200).send("Skipping Nimbus webhook processing for SI order");
+      return;
+    }
+
     // 1. Find the order by AWB number
     const order = await prisma.order.findUnique({
       where: { id: order_number },
