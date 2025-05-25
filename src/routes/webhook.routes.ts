@@ -41,9 +41,9 @@ WebhookRouter.post("/", async (req: Request, res: Response, next: NextFunction) 
       edd,
     } = payload;
 
-    if( order_number.startsWith("SI")){
-      console.log("Skipping Nimbus webhook processing for SI order");
-      res.status(200).send("Skipping Nimbus webhook processing for SI order");
+    if( !order_number.startsWith("c")){
+      console.log("✅ Skipping Nimbus webhook processing for not an cuid order");
+      res.status(200).send("Skipping Nimbus webhook processing for not an cuid order");
       return;
     }
 
