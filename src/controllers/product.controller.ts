@@ -451,6 +451,12 @@ const updateProduct = async (
     });
   }
 
+  let slug = product.slug;
+
+  if ( name !== product.name) {
+    slug = await slugify(name);
+  }
+
   // Update the product with all fields
   const updatedProduct = await prisma.product.update({
     where: { id },
@@ -462,6 +468,7 @@ const updateProduct = async (
       category_id,
       status,
       sku,
+      slug,
       assets: assets
         ? {
             create: assets.map((asset: { url: string; type: AssetType }) => ({
@@ -478,7 +485,6 @@ const updateProduct = async (
 
   res.status(HttpStatusCodes.OK).json({ success: true, updatedProduct });
 };
-
 const updateStatus = async (
   req: Request,
   res: Response,
